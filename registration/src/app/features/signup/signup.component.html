@@ -1,0 +1,64 @@
+<form  [formGroup]="form" class="form" fxLayout="column" fxLayoutGap="30px">
+	<div fxLayoutAlign="center center">
+		SIGN UP
+	</div>
+	<div fxLayout="column" fxLayoutGap="10px">
+
+		<mat-form-field>
+			<mat-label>email</mat-label>
+			<input formControlName="email" matInput type="email">
+			<mat-error *ngIf="emailControl.invalid">
+				invalid
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>username</mat-label>
+			<input formControlName="username" matInput type="text">
+			<mat-error>
+				invalid
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field >
+			<mat-label>last name</mat-label>
+			<input formControlName="lastName" matInput type="text">
+			<mat-error>
+				invalid
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>first name</mat-label>
+			<input formControlName="firstName" matInput type="text">
+			<mat-error>
+				invalid
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>password</mat-label>
+			<input formControlName="password" matInput type="password">
+			<mat-error>
+				invalid
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>confirm password</mat-label>
+			<input formControlName="confirmPassword" matInput type="password">
+			<mat-error>
+				invalid
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<div *ngFor="let error of errors" @anim class="error">
+		<span>{{error}}</span>
+	</div>
+
+	<div>
+		<button [disabled]="form.invalid || loading" mat-raised-button color="primary" (click)="signup()">sign up</button>
+	</div>
+</form>
+
+
+
+
+
+
+

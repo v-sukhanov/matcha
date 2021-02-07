@@ -1,0 +1,28 @@
+<form  [formGroup]="form" class="form" fxLayout="column" fxLayoutGap="30px">
+	<div fxLayoutAlign="center center">
+		SIGN IN
+	</div>
+	<div fxLayout="column" fxLayoutGap="10px">
+
+
+		<mat-form-field>
+			<mat-label>username</mat-label>
+			<input formControlName="username" matInput type="text">
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>password</mat-label>
+			<input formControlName="password" matInput type="password">
+
+		</mat-form-field>
+	</div>
+	<div>
+		<button [disabled]="form.invalid" mat-raised-button color="primary">sign in</button>
+	</div>
+</form>
+
+
+
+
+
+
+
