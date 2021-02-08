@@ -5,6 +5,7 @@ import { DataService } from '../../core/services/data.service';
 import { EMPTY, pipe } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-signup',
@@ -38,7 +39,7 @@ export class SignupComponent implements OnInit {
 	public errors: string[];
 		public loading: boolean;
 
-	constructor(private _dataService: DataService) {
+	constructor(private _dataService: DataService, private _router: Router) {
 		this.emailControl = new FormControl('', [Validators.required, FormValidators.emailValidator]);
 		this.passwordControl = new FormControl('', [Validators.required, FormValidators.passValidator]);
 		this.confirmPasswordControl = new FormControl('', [Validators.required, FormValidators.passValidator]);
@@ -82,6 +83,8 @@ export class SignupComponent implements OnInit {
 	}
 
 	public signup(): void {
+		this.errors = [];
+
 		this._dataService.signup({
 			email: this.emailControl.value,
 			password: this.passwordControl.value,
@@ -92,12 +95,14 @@ export class SignupComponent implements OnInit {
 		})
 			.pipe(
 				catchError(({ error }) => {
-					// this._createNewForm();
+					this._createNewForm();
 					this.errors = error;
 					return EMPTY;
 				})
 			)
-			.subscribe(console.log);
+			.subscribe(() => {
+				this._router.navigate(['signin']);
+			});
 	}
 }
 

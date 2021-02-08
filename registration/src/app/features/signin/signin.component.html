@@ -15,8 +15,19 @@
 
 		</mat-form-field>
 	</div>
+	<div *ngFor="let error of errors" @anim class="error">
+		<span>{{error}}</span>
+	</div>
 	<div>
-		<button [disabled]="form.invalid" mat-raised-button color="primary">sign in</button>
+		<button [disabled]="form.invalid" mat-raised-button color="primary" (click)="signin()">sign in</button>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="space-between">
+		<div>
+			<a routerLink="/signup">signup</a>
+		</div>
+		<div>
+			<a routerLink="/forgot">forgot password?</a>
+		</div>
 	</div>
 </form>
 

@@ -16,13 +16,17 @@ import { RecoveryPasswordComponent } from './features/recovery-password/recovery
 import { HttpService } from './core/services/http.service';
 import { DataService } from './core/services/data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfirmComponent } from './features/confirm/confirm.component';
+import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		SigninComponent,
 		SignupComponent,
-		RecoveryPasswordComponent
+		RecoveryPasswordComponent,
+		ConfirmComponent,
+		ForgotPasswordComponent,
 	],
 	imports: [
 		BrowserModule,

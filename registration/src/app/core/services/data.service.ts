@@ -12,4 +12,16 @@ export class DataService {
 	public signup(params: ICreateUserParams): Observable<boolean> {
 		return this._httpService.post<boolean>('/signup', params);
 	}
+
+	public signin(username: string, password: string): Observable<boolean> {
+		return this._httpService.post<boolean>('/signin', { username, password });
+	}
+
+	public confirm(hash: string): Observable<void> {
+		return this._httpService.post<void>('/confirm', { hash });
+	}
+
+	public forgotPassword(email: string): Observable<void> {
+		return this._httpService.post<void>('/confirm', { email });
+	}
 }

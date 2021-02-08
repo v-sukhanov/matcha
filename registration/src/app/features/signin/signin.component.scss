@@ -10,3 +10,16 @@
 button   {
     width: 100%;
 }
+
+a {
+    text-decoration: none;
+    color: #575267;
+}
+
+.error {
+    background: #ea4848;
+    color: white;
+    border-radius:5px;
+    text-align: center;
+    padding: 15px;
+}

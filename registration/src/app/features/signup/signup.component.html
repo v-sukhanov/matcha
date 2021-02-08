@@ -54,6 +54,14 @@
 	<div>
 		<button [disabled]="form.invalid || loading" mat-raised-button color="primary" (click)="signup()">sign up</button>
 	</div>
+	<div fxLayoutAlign="space-between">
+		<div>
+			<a routerLink="/signin">Already have any account?</a>
+		</div>
+		<div>
+			<a routerLink="/forgot">forgot password?</a>
+		</div>
+	</div>
 </form>
 
 
