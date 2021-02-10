@@ -53,6 +53,8 @@ export class SigninComponent implements OnInit   {
 					return EMPTY;
 				})
 			)
-			.subscribe(console.log)
+			.subscribe(({ refreshToken, accessToken }) => {
+				window.location.href = `http://localhost:4220?access_token=${accessToken}&refresh_token=${refreshToken}`;
+			});
 	}
 }

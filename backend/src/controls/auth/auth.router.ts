@@ -1,12 +1,13 @@
-import { ApiResponse } from '../models/api-response';
-import { ApiError } from '../models/api-error';
-import { sendMail } from '../utils/email';
+import { ApiResponse } from '../../models/api-response';
+import { ApiError } from '../../models/api-error';
+import { sendMail } from '../../utils/email';
+import has = Reflect.has;
 const jwt = require('jsonwebtoken')
 const randtoken = require('rand-token')
 const bcrypt = require('bcrypt')
 const {Router} = require('express')
 const {check, validationResult} = require('express-validator')
-const connection = require('../utils/db-connection')
+const connection = require('../../utils/db-connection')
 const router = Router()
 const config = require('config');
 
@@ -80,7 +81,7 @@ router.post('/signin', async (req: any, res: any) => {
 				id: user.id
 			},
 			config.get('secret'),
-			{ expiresIn: '500s' }
+			{ expiresIn: '10s' }
 		)
 		await connection.query('UPDATE users SET access_token =?, refresh_token=?', [accessToken, refreshToken]);
 		return res.status(200).json({refreshToken, accessToken})
@@ -90,9 +91,43 @@ router.post('/signin', async (req: any, res: any) => {
 	}
 })
 
-router.post('/forgot', async (req: any, res: any) => {
-
+router.post('/forgot', [check('email', 'invalid email').isEmail(),], async (req: any, res: any) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).json([errors.array().map((val: any) => val.msg)])
+	}
+	const email = req.body.email;
+	try {
+		const user = (await connection.query('SELECT * FROM users WHERE email=?', [email]))[0][0]
+		sendMail(email, 'email verify', `Please click this <a href="http://localhost:4200/recovery?hash=${user.hash}">link</a> to recovery your password`);
+		return res.status(200).json({});
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({});
+	}
 })
 
+router.post('/recovery', [
+		check('password', 'invalid password').isLength({ min: 6 }),
+		check('confirmPassword', 'invalid confirm password').custom((value: any, { req }: any) => (value === req.body.password) && value),
+		check('hash', 'invalid hash').isLength({ min: 1})
+	], async (req: any, res: any) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json([errors.array().map((val: any) => val.msg)])
+		}
+		const { password, confirmPassword, hash } = req.body;
+		try {
+			const user = (await connection.query('SELECT * FROM users WHERE hash=?', [hash]))[0][0];
+			if (!user) {
+				return res.status(400).json(['hash invalid']);
+			}
+			await connection.query('UPDATE users SET password=?', [await bcrypt.hash(password, 12)]);
+			return res.status(200).json({})
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({});
+		}
+	})
 
 module.exports = router;

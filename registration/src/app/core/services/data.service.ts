@@ -13,8 +13,8 @@ export class DataService {
 		return this._httpService.post<boolean>('/signup', params);
 	}
 
-	public signin(username: string, password: string): Observable<boolean> {
-		return this._httpService.post<boolean>('/signin', { username, password });
+	public signin(username: string, password: string): Observable<{ accessToken, refreshToken }> {
+		return this._httpService.post<{ accessToken, refreshToken }>('/signin', { username, password });
 	}
 
 	public confirm(hash: string): Observable<void> {
@@ -22,6 +22,10 @@ export class DataService {
 	}
 
 	public forgotPassword(email: string): Observable<void> {
-		return this._httpService.post<void>('/confirm', { email });
+		return this._httpService.post<void>('/forgot', { email });
+	}
+
+	public recovery(hash: string, password: string, confirmPassword: string): Observable<void> {
+		return this._httpService.post<void>('/recovery', { hash, password, confirmPassword });
 	}
 }

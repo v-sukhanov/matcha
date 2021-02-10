@@ -49,8 +49,8 @@ export class ForgotPasswordComponent implements OnInit {
 	public sendLink(): void {
 		this._dataService.forgotPassword(this.form.controls.email.value)
 			.pipe(
-				catchError((errors: string[]) => {
-					this.errors = errors;
+				catchError(({error}) => {
+					this.errors = error;
 					return EMPTY;
 				})
 			)

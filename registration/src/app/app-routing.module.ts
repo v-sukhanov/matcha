@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { SignupComponent } from './features/signup/signup.component';
 import { ConfirmComponent } from './features/confirm/confirm.component';
 import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
+import { RecoveryPasswordComponent } from './features/recovery-password/recovery-password.component';
 
 const routes: Routes = [
 	{
@@ -25,12 +26,12 @@ const routes: Routes = [
 				component: ConfirmComponent
 			},
 			{
-				path: 'recovery',
-				component: ConfirmComponent
-			},
-			{
 				path: 'forgot',
 				component: ForgotPasswordComponent
+			},
+			{
+				path: 'recovery',
+				component: RecoveryPasswordComponent
 			}
 		]
 	},
