@@ -1,0 +1,21 @@
+
+.navbar-item {
+    cursor: pointer;
+    opacity: .5;
+    transition: .3s;
+    text-decoration: none;
+    &:hover {
+        opacity: 1;
+    }
+    .material-icons {
+        color: #fff;
+    }
+
+    span {
+        color: white;
+        font-size: 13px
+    }
+}
+.active {
+    opacity: 1;
+}

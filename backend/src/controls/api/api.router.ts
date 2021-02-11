@@ -7,8 +7,8 @@ router.get('/info', (req:any, res: any) => {
 	res.status(200).json({
 		email: req.user.email,
 		username: req.user.username,
-		first_name: req.user.first_name,
-		last_name: req.user.last_name
+		firstName: req.user.first_name,
+		lastName: req.user.last_name
 	})
 })
 

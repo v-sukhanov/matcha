@@ -1,0 +1,14 @@
+@import '../assets/scss/color.scss';
+
+.container {
+    height: 100vh;
+    width: 100%;
+    background: $primary-background;
+    .navbar {
+        width: 150px;
+    }
+
+    .content {
+        width: calc(100vw - 200px);
+    }
+}
