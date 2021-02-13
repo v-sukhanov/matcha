@@ -1,0 +1,44 @@
+@import '../../../../assets/scss/color.scss';
+
+.user-info {
+    background: $secondary-background;
+    width: 600px;
+    border-radius: 10px;
+    span {
+        color: white;
+        font-size: 13px;
+    }
+    .user-info__title {
+        width: 100%;
+        padding: 25px 0;
+        opacity: .5;
+        transition: .3s;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    .user-info__content {
+        //padding-bottom: 25px;
+    }
+}
+
+
+.icon__opened {
+    transform: rotate(180deg);
+}
+
+.full-width {
+    width: 100%;
+}
+
+input {
+    color: white;
+}
+
+
+.material-icons {
+    color: white;
+    transition: .3s;
+    user-select: none;
+}
+

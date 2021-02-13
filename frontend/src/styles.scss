@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/scss/color.scss';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -26,4 +27,80 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
     margin-right: 0 !important;
+}
+
+.mat-select-arrow, .mat-select-value, .mat-form-field-label {
+    color: white;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+    background: $primary;
+    &:hover {
+        background: $primary;
+
+    }
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-accent .mat-slider-track-fill, .mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label {
+    background: $secondary;
+}
+
+.mat-chip.mat-standard-chip {
+    background: $secondary;
+    color: white;
+}
+
+/**
+	perfect scrollbar style
+ */
+.ps__rail-y {
+    background: transparent !important;
+    .ps__thumb-y {
+        width: 5px !important;
+        background-color: rgba(white, .2);
+    }
+    @media screen and (max-width: 960px) {
+        width: 0 !important;
+        .ps__thumb-y {
+            width: 0 !important;
+        }
+    }
+}
+.ps__rail-x {
+    background: transparent !important;
+    .ps__thumb-x {
+        height: 5px !important;
+        background-color: rgba(white, .2);
+        //width: 0 !important;
+
+    }
+    @media screen and (max-width: 960px) {
+        width: 0 !important;
+        .ps__thumb-x {
+            width: 0 !important;
+        }
+    }
+}
+
+.mat-slider-horizontal {
+    width: 100%;
+}
+
+button {
+    outline: none;
+    background: $primary;
+    color: white;
+    font-size: 13px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    &:disabled {
+        opacity: .5;
+    }
 }

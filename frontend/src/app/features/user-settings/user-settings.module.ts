@@ -6,17 +6,28 @@ import { FlexModule } from '@angular/flex-layout';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PasswordSettingsComponent } from './password-settings/password-settings.component';
+import { UserParamsSettingsComponent } from 'app/features/user-settings/user-params-settings/user-params-settings.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
-	declarations: [UserSettingsComponent],
+	declarations: [UserSettingsComponent, AccountSettingsComponent, PasswordSettingsComponent, UserParamsSettingsComponent],
 	imports: [
 		CommonModule,
 		UserSettingsRoutingModule,
 		FlexModule,
 		MatExpansionModule,
 		MatFormFieldModule,
-		MatInputModule
+		MatInputModule,
+		MatSliderModule,
+		MatSelectModule,
+		MatChipsModule,
+		MatIconModule
 	]
 })
 export class UserSettingsModule {}

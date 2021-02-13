@@ -1,0 +1,74 @@
+<div class="user-info">
+    <mat-expansion-panel hideToggle [(expanded)]="expanded">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div class="user-info__title" fxLayout="row" fxLayoutAlign="space-between center">
+                        <span>
+                            Edit user info settings
+                        </span>
+                    <i [class.icon__opened]="expanded" class="material-icons">arrow_drop_down</i>
+                </div>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="user-info__content" fxLayout="column" fxLayoutGap="15px">
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="default center">
+                <span>age: {{ageValue}}</span>
+                <mat-slider
+                        thumbLabel
+                        tickInterval="1000"
+                        [(value)]="ageValue"
+                        min="0"
+                        max="100"></mat-slider>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Gender</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let food of temp" [value]="food.value">
+                            {{food.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Sexual Preference</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let food of temp" [value]="food.value">
+                            {{food.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>biography</mat-label>
+                    <textarea rows="7" matInput></textarea>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-chip-list">
+                    <mat-label>Tags</mat-label>
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                                  [removable]="removable" (removed)="remove(fruit)">
+                            {{fruit.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="new tags..."
+                               [matChipInputFor]="chipList"
+                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               [matChipInputAddOnBlur]="addOnBlur"
+                               (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+            <div>
+                <button>
+                    edit
+                </button>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</div>

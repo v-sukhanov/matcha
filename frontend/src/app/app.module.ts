@@ -9,6 +9,7 @@ import { NavbarComponent } from './templates/navbar/navbar.component';
 import { FlexModule } from '@angular/flex-layout';
 import { NavbarItemComponent } from './templates/navbar/navbar-item/navbar-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		AppRoutingModule,
 		CoreModule,
 		FlexModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		PerfectScrollbarModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
