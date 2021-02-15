@@ -28,7 +28,7 @@ export class UserParamsSettingsComponent implements OnInit {
 	];
 
 	constructor() {
-		this.expanded = true;
+		this.expanded = false;
 		this.ageValue = 18;
 	}
 

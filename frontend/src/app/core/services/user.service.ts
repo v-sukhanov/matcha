@@ -19,11 +19,11 @@ export class UserService {
 				take(1)
 			)
 			.subscribe(() => {
-				this._getUser();
+				this.getUser();
 			});
 	}
 
-	private _getUser(): void {
+	public getUser(): void {
 		this._dataService.getUser().subscribe(user => {
 			this.user$.next(user);
 		});

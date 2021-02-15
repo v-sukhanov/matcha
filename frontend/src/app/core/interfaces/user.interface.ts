@@ -7,8 +7,8 @@ export interface IUser {
 	email: string;
 	gender?: GenderEnum;
 	sexualPreferences?: string;
-	biography: string;
-	tags: string[];
-	photosLink: string[];
-	profilePictureLink: string;
+	biography?: string;
+	tags?: string[];
+	photosLink?: string[];
+	profilePictureLink?: string;
 }

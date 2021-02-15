@@ -13,6 +13,8 @@ import { UserParamsSettingsComponent } from 'app/features/user-settings/user-par
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
 
 
 @NgModule({
@@ -27,7 +29,11 @@ import { MatIconModule } from '@angular/material/icon';
 		MatSliderModule,
 		MatSelectModule,
 		MatChipsModule,
-		MatIconModule
+		MatIconModule,
+		ReactiveFormsModule
+	],
+	providers: [
+		UserSettingsDataService
 	]
 })
 export class UserSettingsModule {}

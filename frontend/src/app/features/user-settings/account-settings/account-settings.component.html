@@ -1,4 +1,4 @@
-<div class="user-info">
+<form class="user-info" [formGroup]="form">
     <mat-expansion-panel hideToggle [(expanded)]="accountSettingsExpanded">
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -10,28 +10,31 @@
                 </div>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="user-info__content" fxLayout="column" fxLayoutGap="5px">
+        <div class="user-info__content" fxLayout="column" fxLayoutGap="15px">
             <mat-form-field class="full-width">
                 <mat-label>email</mat-label>
-                <input matInput [value]="(userService.user$ | async)?.email">
+                <input matInput [value]="(userService.user$ | async)?.email" formControlName="email">
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>username</mat-label>
-                <input matInput  [value]="(userService.user$ | async)?.username">
+                <input matInput  [value]="(userService.user$ | async)?.username" formControlName="username">
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>first name</mat-label>
-                <input matInput [value]="(userService.user$ | async)?.firstName">
+                <input matInput [value]="(userService.user$ | async)?.firstName"  formControlName="firstName">
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>last name</mat-label>
-                <input matInput [value]="(userService.user$ | async)?.lastName">
+                <input matInput [value]="(userService.user$ | async)?.lastName"  formControlName="lastName">
             </mat-form-field>
+            <div *ngIf="profileChanged" @anim class="info">
+                <span>user settings changed</span>
+            </div>
             <div>
-                <button>
+                <button [disabled]="form.invalid || profileChanged" (click)="editAccountSettings()">
                     edit
                 </button>
             </div>
         </div>
     </mat-expansion-panel>
-</div>
+</form>
