@@ -4,11 +4,12 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GenderEnum } from '@core/enums/gender.enum';
 import { UserService } from '@core/services/user.service';
-import { Subject } from 'rxjs';
+import { Subject, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from '@core/services/data.service';
 import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
 import { ITag } from '@core/interfaces/tag.interface';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 interface IGenderSelector {
 	value: GenderEnum;
@@ -19,11 +20,38 @@ interface IGenderSelector {
 @Component({
 	selector: 'matcha-user-params-settings',
 	templateUrl: './user-params-settings.component.html',
-	styleUrls: ['./user-params-settings.component.scss']
+	styleUrls: ['./user-params-settings.component.scss'],
+	animations: [
+		trigger('anim', [
+			transition('void => *', [
+				style({
+					height: '0px',
+					opacity: '0',
+					overflow: 'hidden'
+				}),
+				animate('150ms ease-out', style({
+					height: '*',
+					opacity: '*'
+				}))
+			]),
+			transition('* => void', [
+				style({
+					height: '*',
+					opacity: '*'
+				}),
+				animate('150ms ease-out', style({
+					height: '0px',
+					opacity: '0',
+					overflow: 'hidden'
+				}))
+			]),
+		])
+	]
 })
 export class UserParamsSettingsComponent implements OnInit, OnDestroy {
 	public expanded: boolean;
 	private _unsub$: Subject<void>;
+	public profileChanged: boolean;
 
 	public form: FormGroup;
 	public genders: IGenderSelector[];
@@ -36,6 +64,7 @@ export class UserParamsSettingsComponent implements OnInit, OnDestroy {
 		private _userService: UserService,
 		private _dataService: UserSettingsDataService
 	) {
+		this.profileChanged = false;
 		this.expanded = true;
 		this._unsub$ = new Subject<void>();
 		this.tags = [];
@@ -111,7 +140,10 @@ export class UserParamsSettingsComponent implements OnInit, OnDestroy {
 	public editUserParamsSettings(): void {
 		const { age, gender, sexualPreference, biography } = this.form.controls;
 		this._dataService.editUserParamsSettings(age.value, gender.value, sexualPreference.value, biography.value?.trim(), this.tags)
-			.subscribe();
-		this._userService.getUser();
+			.subscribe(() => {
+				this._userService.getUser();
+				this.profileChanged = true;
+				timer(10000).subscribe(() => this.profileChanged = false);
+			});
 	}
 }

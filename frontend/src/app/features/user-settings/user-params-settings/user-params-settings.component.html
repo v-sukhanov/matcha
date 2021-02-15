@@ -65,8 +65,11 @@
                     </mat-chip-list>
                 </mat-form-field>
             </div>
+            <div *ngIf="profileChanged" @anim class="info">
+                <span>user settings changed</span>
+            </div>
             <div>
-                <button [disabled]="form.invalid"(click)="editUserParamsSettings()">
+                <button [disabled]="form.invalid || profileChanged" (click)="editUserParamsSettings()">
                     edit
                 </button>
             </div>

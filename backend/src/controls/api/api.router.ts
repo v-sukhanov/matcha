@@ -8,7 +8,7 @@ const router = Router()
 router.get('/info', async (req:any, res: any) => {
 	try {
 		const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [req.user.id]))[0];
-		res.status(200).json({
+		return res.status(200).json({
 			email: req.user.email,
 			username: req.user.username,
 			firstName: req.user.first_name,
@@ -69,9 +69,9 @@ router.post('/params/edit', async (req:any, res: any) => {
 		await connection.query('UPDATE users SET age=?, gender=?, sexual_preference=?, biography=? WHERE id=?', [age, gender, sexualPreference, biography, id]);
 		await connection.query('DELETE FROM tags WHERE user_id=?', [id]);
 		if (tags && tags.length > 0) {
-			tags.forEach((val: any) => {
-				connection.query('INSERT INTO tags(user_id, text) VALUES(?, ?)', [id, val.text]);
-			})
+			for (const val of tags) {
+				await connection.query('INSERT INTO tags(user_id, text) VALUES(?, ?)', [id, val.text]);
+			}
 		}
 		return res.status(200).json({});
 	} catch(error) {
