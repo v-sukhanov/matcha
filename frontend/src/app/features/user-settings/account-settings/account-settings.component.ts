@@ -46,7 +46,7 @@ export class AccountSettingsComponent implements OnInit {
 		public userService: UserService,
 		private _dataService: UserSettingsDataService
 	) {
-		this.accountSettingsExpanded = true;
+		this.accountSettingsExpanded = false;
 		this.profileChanged = false;
 		this.form = new FormGroup({
 			email: new FormControl(''),
@@ -70,7 +70,6 @@ export class AccountSettingsComponent implements OnInit {
 
 
 	ngOnInit(): void {
-		console.log(1212);
 	}
 
 	public editAccountSettings(): void {

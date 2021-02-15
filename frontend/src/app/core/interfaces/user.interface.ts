@@ -1,4 +1,5 @@
 import { GenderEnum } from '@core/enums/gender.enum';
+import { ITag } from '@core/interfaces/tag.interface';
 
 export interface IUser {
 	username: string;
@@ -6,9 +7,10 @@ export interface IUser {
 	firstName: string;
 	email: string;
 	gender?: GenderEnum;
-	sexualPreferences?: string;
+	age?: number;
+	sexualPreference?: string;
 	biography?: string;
-	tags?: string[];
+	tags?: ITag[];
 	photosLink?: string[];
 	profilePictureLink?: string;
 }

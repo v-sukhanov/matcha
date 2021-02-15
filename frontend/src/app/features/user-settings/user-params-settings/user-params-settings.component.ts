@@ -1,47 +1,97 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { FormControl, FormGroup } from '@angular/forms';
+import { GenderEnum } from '@core/enums/gender.enum';
+import { UserService } from '@core/services/user.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DataService } from '@core/services/data.service';
+import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
+import { ITag } from '@core/interfaces/tag.interface';
+
+interface IGenderSelector {
+	value: GenderEnum;
+	viewValue: string;
+}
+
 
 @Component({
 	selector: 'matcha-user-params-settings',
 	templateUrl: './user-params-settings.component.html',
 	styleUrls: ['./user-params-settings.component.scss']
 })
-export class UserParamsSettingsComponent implements OnInit {
+export class UserParamsSettingsComponent implements OnInit, OnDestroy {
 	public expanded: boolean;
-	public ageValue: number | null;
-	temp = [
-		{value: 'steak-0', viewValue: 'Male'},
-		{value: 'pizza-1', viewValue: 'Female'},
-		{value: 'tacos-2', viewValue: 'None'}
-	];
+	private _unsub$: Subject<void>;
 
-	visible = true;
-	selectable = true;
-	removable = true;
-	addOnBlur = true;
+	public form: FormGroup;
+	public genders: IGenderSelector[];
+	public sexualPreferences: IGenderSelector[];
+
 	readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-	fruits = [
-		{name: '#Lemon'},
-		{name: '#Lime'},
-		{name: '#Apple'},
-	];
+	public tags: ITag[];
 
-	constructor() {
-		this.expanded = false;
-		this.ageValue = 18;
+	constructor(
+		private _userService: UserService,
+		private _dataService: UserSettingsDataService
+	) {
+		this.expanded = true;
+		this._unsub$ = new Subject<void>();
+		this.tags = [];
+		this.genders = [
+			{
+				value: GenderEnum.Female,
+				viewValue: 'female'
+			},
+			{
+				value: GenderEnum.Male,
+				viewValue: 'male'
+			},
+			{
+				value: GenderEnum.None,
+				viewValue: 'none'
+			}
+		];
+		this.sexualPreferences = this.genders;
+		this.form = new FormGroup({
+			age: new FormControl(),
+			gender: new FormControl(),
+			sexualPreference: new FormControl(),
+			biography: new FormControl()
+		});
 	}
 
-	ngOnInit(): void {
+	public ngOnInit(): void {
+		this._userService.user$
+			.pipe(
+				takeUntil(this._unsub$)
+			)
+			.subscribe((user) => {
+				this.form = new FormGroup({
+					age: new FormControl(user.age),
+					gender: new FormControl(user.gender),
+					sexualPreference: new FormControl(user.sexualPreference),
+					biography: new FormControl(user.biography)
+				});
+				if (user.tags) {
+					this.tags = user.tags;
+				}
+			});
 	}
 
-	add(event: MatChipInputEvent): void {
+	public ngOnDestroy(): void {
+		this._unsub$.next();
+		this._unsub$.complete();
+	}
+
+	public add(event: MatChipInputEvent): void {
 		const input = event.input;
 		const value = event.value;
 
 		// Add our fruit
 		if ((value || '').trim()) {
-			this.fruits.push({name: '#' + value.trim()});
+			this.tags.push({ text: '#' + value.trim() });
 		}
 
 		// Reset the input value
@@ -50,11 +100,18 @@ export class UserParamsSettingsComponent implements OnInit {
 		}
 	}
 
-	remove(fruit: any): void {
-		const index = this.fruits.indexOf(fruit);
+	public remove(val: any): void {
+		const index = this.tags.indexOf(val);
 
 		if (index >= 0) {
-			this.fruits.splice(index, 1);
+			this.tags.splice(index, 1);
 		}
+	}
+
+	public editUserParamsSettings(): void {
+		const { age, gender, sexualPreference, biography } = this.form.controls;
+		this._dataService.editUserParamsSettings(age.value, gender.value, sexualPreference.value, biography.value?.trim(), this.tags)
+			.subscribe();
+		this._userService.getUser();
 	}
 }

@@ -21,7 +21,7 @@ router.post('/update', async (req: any, res: any) => {
 				id: user.id
 			},
 			config.get('secret'),
-			{ expiresIn: '10s' }
+			{ expiresIn: '1000s' }
 		)
 		await connection.query('UPDATE users SET access_token =?, refresh_token=? WHERE id=?', [newAccessToken, newRefreshToken, id]);
 		return res.status(200).json({ refreshToken: newRefreshToken, accessToken: newAccessToken })

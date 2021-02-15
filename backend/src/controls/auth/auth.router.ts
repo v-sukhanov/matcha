@@ -81,7 +81,7 @@ router.post('/signin', async (req: any, res: any) => {
 				id: user.id
 			},
 			config.get('secret'),
-			{ expiresIn: '10s' }
+			{ expiresIn: '1000s' }
 		)
 		await connection.query('UPDATE users SET access_token =?, refresh_token=?', [accessToken, refreshToken]);
 		return res.status(200).json({refreshToken, accessToken})
