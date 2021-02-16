@@ -12,6 +12,10 @@ const routes: Routes = [
 				loadChildren: () => import('@features/user-settings/user-settings.module').then(m => m.UserSettingsModule)
 			},
 			{
+				path: 'profile',
+				loadChildren: () => import('@features/profile/profile.module').then(m => m.ProfileModule)
+			},
+			{
 				path: '',
 				redirectTo: 'settings',
 				pathMatch: 'prefix'

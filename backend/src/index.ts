@@ -9,7 +9,6 @@ const {ExtractJwt, Strategy} = require('passport-jwt')
 const passport = require('passport')
 const connection = require('./utils/db-connection')
 const cors = require('cors');
-
 var jwtOptions = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: config.get('secret')
@@ -32,8 +31,10 @@ var strategy = new Strategy(jwtOptions, async (jwtPayload: any, next: any) => {
 
 passport.use(strategy)
 
+
 app.use(express.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/assets'));
 app.use(cors({
 	origin: ['http://localhost:4200', 'http://localhost:4220']
 }));

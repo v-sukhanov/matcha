@@ -15,10 +15,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
+import { PhotosSettingsComponent } from './photos-settings/photos-settings.component';
 
 
 @NgModule({
-	declarations: [UserSettingsComponent, AccountSettingsComponent, PasswordSettingsComponent, UserParamsSettingsComponent],
+	declarations: [UserSettingsComponent, AccountSettingsComponent, PasswordSettingsComponent, UserParamsSettingsComponent, PhotosSettingsComponent],
 	imports: [
 		CommonModule,
 		UserSettingsRoutingModule,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from '@env';
 import { catchError, map } from 'rxjs/operators';
@@ -102,4 +102,20 @@ export class HttpService {
 
 		return params;
 	}
+
+	public uploadFile<TResponse = any, TRequest = any>(url: string, file: File, reportProgress: boolean = true): Observable<TResponse> {
+		const formData: FormData = new FormData();
+		formData.append('file', file, file.name);
+		const options = {
+			reportProgress,
+		};
+		const httpRequest = new HttpRequest('POST', `${environment.api}${url}`, formData, options);
+		const request = this._httpClient.request<TResponse>(httpRequest)
+			.pipe(
+				map((val: any) => val.body)
+			);
+		return this._handleStandartRequest(request);
+
+	}
+
 }

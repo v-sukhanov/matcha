@@ -1,5 +1,6 @@
 import { GenderEnum } from '@core/enums/gender.enum';
 import { ITag } from '@core/interfaces/tag.interface';
+import { IPhoto } from '@core/interfaces/photo.interface';
 
 export interface IUser {
 	username: string;
@@ -11,6 +12,6 @@ export interface IUser {
 	sexualPreference?: string;
 	biography?: string;
 	tags?: ITag[];
-	photosLink?: string[];
-	profilePictureLink?: string;
+	photosLink?: IPhoto[];
+	avatarLink?: string;
 }

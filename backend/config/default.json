@@ -1,4 +1,5 @@
 {
   "port": 5000,
-  "secret": "very intrsting string"
+  "secret": "very intrsting string",
+  "address": "http://localhost"
 }

@@ -13,7 +13,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
 
 	public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-		if (!req.url.includes('RefreshToken')) {
+		if (!req.url.includes('RefreshToken') && !req.url.includes('94.159.91.198')) {
 
 			const accessToken = this._storageService.getStorageStringItem(StorageKeyEnum.AccessToken);
 			if (accessToken) {

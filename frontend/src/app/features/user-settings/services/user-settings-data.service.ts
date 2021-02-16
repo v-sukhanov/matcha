@@ -23,4 +23,16 @@ export class UserSettingsDataService {
 		: Observable<void> {
 		return this._httpService.post<void>('user/params/edit', { age, gender, sexualPreference, biography, tags });
 	}
+
+	public setUserAvatar(file: FileList): Observable<void> {
+		return this._httpService.uploadFile<void>('user/avatar', file[0]);
+	}
+
+	public setUserPhoto(file: FileList): Observable<void> {
+		return this._httpService.uploadFile<void>('user/photo', file[0]);
+	}
+
+	public deletePhoto(id: string): Observable<void> {
+		return this._httpService.post<void>('user/photo/delete', { id });
+	}
 }

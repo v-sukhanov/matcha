@@ -31,11 +31,21 @@ async function setup() {
 		'gender INT NULL,' +
 		'age INT NULL,' +
 		'sexual_preference INT NULL,' +
+		'avatarLink VARCHAR(256) NULL,' +
 		'biography VARCHAR(512) NULL,' +
 		'UNIQUE INDEX username_UNIQUE (username ASC) VISIBLE);');
 	await connection.execute('CREATE TABLE IF NOT EXISTS tags (' +
 		'  id INT NOT NULL AUTO_INCREMENT,' +
 		'  text VARCHAR(45) NOT NULL,' +
+		'  user_id INT NOT NULL,' +
+		'  PRIMARY KEY (id),' +
+		' FOREIGN KEY (user_id)' +
+		' REFERENCES users (id)' +
+		' ON DELETE CASCADE' +
+		' ON UPDATE CASCADE);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS photos (' +
+		'  id INT NOT NULL AUTO_INCREMENT,' +
+		'  link VARCHAR(256) NOT NULL,' +
 		'  user_id INT NOT NULL,' +
 		'  PRIMARY KEY (id),' +
 		' FOREIGN KEY (user_id)' +

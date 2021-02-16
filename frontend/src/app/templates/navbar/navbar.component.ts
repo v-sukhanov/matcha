@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 		private _userService: UserService
 	) {
 		this._unsub$ = new Subject<void>();
-		this.avatarLink = 'https://sun9-34.userapi.com/impf/c853620/v853620913/242309/mwseBew1S70.jpg?size=960x960&quality=96&proxy=1&sign=43d813c70d44d39600a80d72f2badb50&type=album';
+		this.avatarLink = 'assets/img/default_avatar.png';
 	}
 
 	ngOnInit(): void {
@@ -25,8 +25,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 				takeUntil(this._unsub$)
 			)
 			.subscribe(user => {
-				if (user.profilePictureLink) {
-					this.avatarLink = user.profilePictureLink;
+				if (user.avatarLink) {
+					this.avatarLink = user.avatarLink;
 				}
 			});
 	}
