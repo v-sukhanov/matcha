@@ -11,12 +11,12 @@ export class Dictionary<TKey, TData> {
 		this._items.push(item);
 	}
 
-	public getValue(key: TKey): TData | null {
+	public getValue(key: TKey | undefined): TData | null {
 		const temp = this._items.find(c => c.key === key);
 		return temp ? temp.data : null;
 	}
 
-	public getItem(key: TKey): DictionaryItem<TKey, TData> | null {
+	public getItem(key: TKey | null): DictionaryItem<TKey, TData> | null {
 		const item = this._items.find(c => c.key === key);
 		return item ? item : null;
 	}

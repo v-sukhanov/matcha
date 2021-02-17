@@ -1,0 +1,7 @@
+<div class="browsing">
+    <div fxLayout="column" fxLayoutGap="25px">
+        <div *ngFor="let preference of preferences">
+            <matcha-browsing-preference [preference]="preference"></matcha-browsing-preference>
+        </div>
+    </div>
+</div>

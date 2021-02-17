@@ -56,3 +56,16 @@
 .delete-photo {
  color: #ea4848;
 }
+.other-img__wrap {
+    height: 200px;
+    border-radius:5px;
+    overflow: hidden;
+}
+.other-photo img {
+    height: 250px;
+    width: initial;
+}
+.add-other-photo, .delete-other-photo {
+    position: relative;
+    margin-bottom: 25px;
+}

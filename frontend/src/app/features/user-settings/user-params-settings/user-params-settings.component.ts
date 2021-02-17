@@ -10,6 +10,8 @@ import { DataService } from '@core/services/data.service';
 import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
 import { ITag } from '@core/interfaces/tag.interface';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { DictionaryItem } from '@core/models/dictionary/disctionary-item.model';
+import { DictionaryService } from '@core/services/dictionary.service';
 
 interface IGenderSelector {
 	value: GenderEnum;
@@ -54,35 +56,19 @@ export class UserParamsSettingsComponent implements OnInit, OnDestroy {
 	public profileChanged: boolean;
 
 	public form: FormGroup;
-	public genders: IGenderSelector[];
-	public sexualPreferences: IGenderSelector[];
 
 	readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 	public tags: ITag[];
 
 	constructor(
 		private _userService: UserService,
-		private _dataService: UserSettingsDataService
+		private _dataService: UserSettingsDataService,
+		public dictionaryService: DictionaryService
 	) {
 		this.profileChanged = false;
 		this.expanded = true;
 		this._unsub$ = new Subject<void>();
 		this.tags = [];
-		this.genders = [
-			{
-				value: GenderEnum.Female,
-				viewValue: 'female'
-			},
-			{
-				value: GenderEnum.Male,
-				viewValue: 'male'
-			},
-			{
-				value: GenderEnum.None,
-				viewValue: 'none'
-			}
-		];
-		this.sexualPreferences = this.genders;
 		this.form = new FormGroup({
 			age: new FormControl(),
 			gender: new FormControl(),

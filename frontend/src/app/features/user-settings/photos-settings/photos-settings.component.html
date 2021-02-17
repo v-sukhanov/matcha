@@ -1,10 +1,5 @@
 <div class="user__photos" fxLayout="column" fxLayoutGap="15px">
     <div class="avatar" fxLayout="column" fxLayoutGap="5px">
-        <div>
-            <span>
-                edit avatar
-            </span>
-        </div>
         <div class="photo__wrap">
             <div class="img__wrap">
                 <img [src]="(userService.user$ | async)?.avatarLink ? (userService.user$ | async)?.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
@@ -16,30 +11,26 @@
         </div>
     </div>
     <div class="other-photo" fxLayout="column" fxLayoutGap="5px">
-        <div>
-            <span>
-                add some photo (max 5)
-            </span>
-        </div>
-        <div fxLayout="row wrap" fxLayoutGap="15px">
-            <div *ngIf="photoLength < 5" class="photo__wrap">
-                <div class="img__wrap">
-                    <img src="assets/img/default_photo.png" alt="photo">
+        <perfect-scrollbar [config]="{useBothWheelAxes: true}">
+            <div fxLayout="row" fxLayoutGap="25px">
+                <div *ngIf="photoLength < 5" class="add-other-photo">
+                    <div class="other-img__wrap">
+                        <img src="assets/img/default_photo.png" alt="photo">
+                    </div>
+                    <div (click)="photo.click()" class="add_photo" fxLayoutAlign="center center">
+                        <mat-icon>add</mat-icon>
+                    </div>
+                    <input class="hidden-input" #photo type="file" (change)="uploadOtherPhoto(photo.files)">
                 </div>
-                <div (click)="photo.click()" class="add_photo" fxLayoutAlign="center center">
-                    <mat-icon>add</mat-icon>
-                </div>
-                <input class="hidden-input" #photo type="file" (change)="uploadOtherPhoto(photo.files)">
-            </div>
-            <div *ngFor="let photo of photosLink" class="photo__wrap">
-                <div class="img__wrap">
-                    <img [src]="photo.link" alt="photo">
-                </div>
-                <div fxLayoutAlign="center center">
-                    <mat-icon class="delete-photo" (click)="deletePhoto(photo.id)">delete</mat-icon>
+                <div *ngFor="let photo of photosLink" class="delete-other-photo">
+                    <div class="other-img__wrap">
+                        <img [src]="photo.link" alt="photo">
+                    </div>
+                    <div fxLayoutAlign="center center">
+                        <mat-icon class="delete-photo" (click)="deletePhoto(photo.id)">delete</mat-icon>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </perfect-scrollbar>
     </div>
 </div>

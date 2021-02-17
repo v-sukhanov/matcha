@@ -31,6 +31,7 @@ router.get('/info', async (req:any, res: any) => {
 			sexualPreference: req.user.sexual_preference,
 			biography: req.user.biography,
 			avatarLink: req.user.avatarLink,
+			fameRating: req.user.fame_rating,
 			tags,
 			photosLink
 		})
@@ -38,8 +39,35 @@ router.get('/info', async (req:any, res: any) => {
 		console.log(error);
 		return res.status(500);
 	}
-
 })
+
+router.get('/preference/info', async (req:any, res: any) => {
+	try {
+		const user = (await connection.query('SELECT * FROM users WHERE username=?', [req.query.username]))[0][0]
+		const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [user.id]))[0];
+		const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [user.id]))[0];
+		await connection.query('INSERT INTO consults(user_id, consulted_user_id) VALUES(?, ?)', [req.user.id, user.id])
+		return res.status(200).json({
+			email: user.email,
+			username: user.username,
+			firstName: user.first_name,
+			lastName: user.last_name,
+			age: user.age,
+			gender: user.gender,
+			sexualPreference: user.sexual_preference,
+			biography: user.biography,
+			avatarLink: user.avatarLink,
+			fameRating: user.fame_rating,
+			tags,
+			photosLink
+		})
+	} catch(error) {
+		console.log(error);
+		return res.status(500);
+	}
+})
+
+
 
 router.post('/password/edit', async (req:any, res: any) => {
 	const { user } = req;
@@ -85,7 +113,7 @@ router.post('/params/edit', async (req:any, res: any) => {
 		await connection.query('DELETE FROM tags WHERE user_id=?', [id]);
 		if (tags && tags.length > 0) {
 			for (const val of tags) {
-				await connection.query('INSERT INTO tags(user_id, text) VALUES(?, ?)', [id, val.text]);
+				await connection.query('INSERT IGNORE  INTO tags(user_id, text) VALUES(?, ?)', [id, val.text]);
 			}
 		}
 		return res.status(200).json({});
@@ -119,7 +147,6 @@ router.post('/photo', upload.single('file'), async (req: any, res: any) => {
 
 router.post('/photo/delete', async (req: any, res: any) => {
 	try {
-		console.log(req.body.id);
 		await connection.query('DELETE FROM photos WHERE id=?', [req.body.id]);
 		return res.status(200).json({})
 	} catch(error) {
@@ -127,4 +154,69 @@ router.post('/photo/delete', async (req: any, res: any) => {
 		return res.status(500).json();
 	}
 })
+
+router.get('/preferences/get', async (req: any, res: any) => {
+	try {
+
+		const preferences = (await connection.query('SELECT * FROM users WHERE id!=?', [req.user.id]))[0];
+		const dto = [];
+		for (let user of preferences) {
+			const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [user.id]))[0];
+			const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [user.id]))[0];
+			dto.push({
+				email: user.email,
+				username: user.username,
+				firstName: user.first_name,
+				lastName: user.last_name,
+				age: user.age,
+				gender: user.gender,
+				sexualPreference: user.sexual_preference,
+				biography: user.biography,
+				avatarLink: user.avatarLink,
+				fameRating: user.fame_rating,
+				tags,
+				photosLink
+			})
+		}
+		return res.status(200).json(dto)
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
+router.get('/visits', async (req: any, res: any) => {
+	try {
+		const consules = (await connection.query('SELECT * FROM consults WHERE user_id=?', [req.user.id]))[0].map((val: any) => val.consulted_user_id)
+		const visits = [];
+		for (let counsel of consules) {
+			const visitProfile = (await connection.query('SELECT * FROM users WHERE id=?', [counsel]))[0][0];
+			visits.push(visitProfile);
+		}
+		const dto = [];
+		for (let user of visits) {
+			const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [user.id]))[0];
+			const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [user.id]))[0];
+			dto.push({
+				email: user.email,
+				username: user.username,
+				firstName: user.first_name,
+				lastName: user.last_name,
+				age: user.age,
+				gender: user.gender,
+				sexualPreference: user.sexual_preference,
+				biography: user.biography,
+				avatarLink: user.avatarLink,
+				fameRating: user.fame_rating,
+				tags,
+				photosLink
+			})
+		}
+		return res.status(200).json(dto)
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
 module.exports = router;

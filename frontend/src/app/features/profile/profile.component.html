@@ -1,1 +1,76 @@
-<matcha-user-map></matcha-user-map>
+<div class="profile" fxLayout="column" fxLayoutGap="25px">
+    <div class="profile__info" fxLayout="row" fxLayoutGap="25px">
+        <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="center center">
+            <div class="profile__header" fxLayout="column" fxLayoutGap="15px">
+                <div class="img__wrap">
+                    <img [src]="(userService.user$ | async)?.avatarLink ? (userService.user$ | async)?.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+                </div>
+                <div>
+                    <span class="title">{{(userService.user$ | async)?.username}}</span>
+                </div>
+            </div>
+            <div class="fame-rating" fxLayoutGap="10px" fxLayoutAlign="center center">
+                <mat-icon>favorite</mat-icon>
+                <span>
+                {{(userService.user$ | async)?.fameRating}}
+            </span>
+            </div>
+        </div>
+        <perfect-scrollbar [config]="{useBothWheelAxes: true}">
+            <div class="other-photo" fxLayout="row" fxLayoutGap="25px">
+                <div *ngFor="let photo of (userService.user$ | async)?.photosLink" class="delete-other-photo">
+                    <div class="other-img__wrap">
+                        <img [src]="photo.link" alt="photo">
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+
+    <div class="profile__info" fxLayout="column" fxLayoutGap="25px">
+        <div>
+            <span>name: {{(userService.user$ | async)?.firstName}} {{(userService.user$ | async)?.lastName}}</span>
+        </div>
+        <div>
+            <span>email: {{(userService.user$ | async)?.email}}</span>
+        </div>
+        <div>
+            <span>age: {{(userService.user$ | async)?.age}}</span>
+        </div>
+        <div>
+            <span>gender: {{dictionaryService.genders.getValue((userService.user$ | async)?.gender)}}</span>
+        </div>
+        <div>
+            <span>sexual preference: {{dictionaryService.sexualPreferences.getValue((userService.user$ | async)?.sexualPreference)}}</span>
+        </div>
+        <div>
+            <span>biography: {{(userService.user$ | async)?.biography}}</span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="default center">
+            <span>tags:</span>
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of (userService.user$ | async)?.tags" [selectable]="false">
+                    {{tag.text}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+    <div class="profile__map" fxLayout="column" fxLayoutGap="15px">
+        <div>
+            <span class="title">
+                Geoposition
+            </span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field class="full-width">
+                <mat-label>latitude</mat-label>
+                <input [(ngModel)]="lat" matInput>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>longitude</mat-label>
+                <input [(ngModel)]="lng" matInput>
+            </mat-form-field>
+        </div>
+<!--        <matcha-user-map [lat]="lat" [lng]="lng"></matcha-user-map>-->
+    </div>
+</div>

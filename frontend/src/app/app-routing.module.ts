@@ -16,6 +16,14 @@ const routes: Routes = [
 				loadChildren: () => import('@features/profile/profile.module').then(m => m.ProfileModule)
 			},
 			{
+				path: 'browsing',
+				loadChildren: () => import('@features/browsing/browsing.module').then(m => m.BrowsingModule)
+			},
+			{
+				path: 'history',
+				loadChildren: () => import('@features/visit-history/visit-history.module').then(m => m.VisitHistoryModule)
+			},
+			{
 				path: '',
 				redirectTo: 'settings',
 				pathMatch: 'prefix'

@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserSettingsDataService } from '@features/user-settings/services/user-settings-data.service';
 import { PhotosSettingsComponent } from './photos-settings/photos-settings.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { PhotosSettingsComponent } from './photos-settings/photos-settings.compo
 		MatSelectModule,
 		MatChipsModule,
 		MatIconModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		PerfectScrollbarModule
 	],
 	providers: [
 		UserSettingsDataService

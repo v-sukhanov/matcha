@@ -24,8 +24,8 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Gender</mat-label>
                     <mat-select  formControlName="gender">
-                        <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                            {{gender.viewValue}}
+                        <mat-option *ngFor="let gender of (dictionaryService.genders.getAll())" [value]="gender.key">
+                            {{gender.data}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -34,9 +34,9 @@
             <div>
                 <mat-form-field appearance="fill">
                     <mat-label>Sexual Preference</mat-label>
-                    <mat-select  formControlName="sexualPreference">
-                        <mat-option *ngFor="let sexualPreference of sexualPreferences" [value]="sexualPreference.value">
-                            {{sexualPreference.viewValue}}
+                    <mat-select formControlName="sexualPreference">
+                        <mat-option *ngFor="let sexualPreference of (dictionaryService.sexualPreferences.getAll())" [value]="sexualPreference.key">
+                            {{sexualPreference.data }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -48,7 +48,7 @@
                 </mat-form-field>
             </div>
             <div>
-                <mat-form-field class="example-chip-list">
+                <mat-form-field>
                     <mat-label>Tags</mat-label>
                     <mat-chip-list #chipList aria-label="Fruit selection">
                         <mat-chip *ngFor="let tag of tags" [selectable]="false"

@@ -1,0 +1,61 @@
+<div *ngIf="preference" class="profile__info" fxLayout="row" fxLayoutGap="25px">
+    <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="default center">
+        <div class="profile__header" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="center center">
+            <div class="img__wrap">
+                <img [src]="preference.avatarLink ? preference.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+            </div>
+            <div>
+                <span>{{preference.username}}</span>
+            </div>
+        </div>
+        <div class="fame-rating" fxLayoutGap="10px" fxLayoutAlign="center center">
+            <mat-icon>favorite</mat-icon>
+            <span>
+                {{preference.fameRating}}
+            </span>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="50px">
+        <div fxLayout="column" fxLayoutGap="15px">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <div>
+                    <a class="title link-to-profile" [routerLink]="['user', preference.username]">{{preference.firstName}} {{preference.lastName}}</a>
+                </div>
+                <div>
+                    <div  class="male">
+                        <mat-icon *ngIf="preference.gender == this.genderEnum.Male">male</mat-icon>
+                    </div>
+                    <div  class="female">
+                        <mat-icon class="female" *ngIf="preference.gender == this.genderEnum.Female">female</mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutGap="5px">
+                <div *ngIf="preference.age">
+                    <span class="secondary-text">age {{preference.age}}</span>
+                </div>
+                <div *ngIf="preference.biography">
+                    <span class="secondary-text">age {{preference.biography}}</span>
+                </div>
+                <div>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let tag of preference.tags" [selectable]="false">
+                            {{tag.text}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+        </div>
+        <div>
+            <perfect-scrollbar [config]="{useBothWheelAxes: true}">
+                <div class="other-photo" fxLayout="row" fxLayoutGap="25px">
+                    <div *ngFor="let photo of preference.photosLink" class="delete-other-photo">
+                        <div class="other-img__wrap">
+                            <img [src]="photo.link" alt="photo">
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>

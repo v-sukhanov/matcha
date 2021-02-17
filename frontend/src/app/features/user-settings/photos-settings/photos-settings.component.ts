@@ -36,7 +36,7 @@ export class PhotosSettingsComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	ngOnDestroy(): void {
+	public ngOnDestroy(): void {
 		this._unsub$.next();
 		this._unsub$.complete();
 	}

@@ -10,7 +10,6 @@ import { FlexModule } from '@angular/flex-layout';
 import { NavbarItemComponent } from './templates/navbar/navbar-item/navbar-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
 	declarations: [

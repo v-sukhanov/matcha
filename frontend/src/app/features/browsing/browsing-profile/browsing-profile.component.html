@@ -1,0 +1,75 @@
+<div *ngIf="preference" class="profile" fxLayout="column" fxLayoutGap="25px">
+    <div class="profile__info" fxLayout="row" fxLayoutGap="25px">
+        <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="default center">
+            <div class="profile__header" fxLayout="column" fxLayoutGap="15px">
+                <div class="img__wrap">
+                    <img [src]="preference.avatarLink ? preference.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+                </div>
+                <div>
+                    <span class="title">{{preference.username}}</span>
+                </div>
+            </div>
+            <div class="fame-rating" fxLayoutGap="10px" fxLayoutAlign="center center">
+                <mat-icon>favorite</mat-icon>
+                <span>
+                    {{preference.fameRating}}
+                </span>
+            </div>
+
+        </div>
+        <div fxLayout="column" fxLayoutGap="15px">
+            <perfect-scrollbar [config]="{useBothWheelAxes: true}">
+                <div class="other-photo" fxLayout="row" fxLayoutGap="25px">
+                    <div *ngFor="let photo of preference.photosLink" class="delete-other-photo">
+                        <div class="other-img__wrap">
+                            <img [src]="photo.link" alt="photo">
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+                <div class="dislike"  fxLayoutGap="10px" fxLayoutAlign="center center">
+                    <mat-icon>thumb_down</mat-icon>
+                </div>
+                <div class="report"  fxLayoutGap="10px" fxLayoutAlign="center center">
+                    <mat-icon>report</mat-icon> <span>report</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="profile__info" fxLayout="column" fxLayoutGap="25px">
+        <div>
+            <span>name: {{preference.firstName}} {{preference.lastName}}</span>
+        </div>
+        <div>
+            <span>age: {{preference.age}}</span>
+        </div>
+        <div>
+            <span>gender: {{dictionaryService.genders.getValue(preference.gender)}}</span>
+        </div>
+        <div>
+            <span>sexual preference: {{dictionaryService.sexualPreferences.getValue(preference.sexualPreference)}}</span>
+        </div>
+        <div>
+            <span>biography: {{preference.biography}}</span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="default center">
+            <span>tags:</span>
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of preference.tags" [selectable]="false">
+                    {{tag.text}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+    <div class="profile__map" fxLayout="column" fxLayoutGap="15px">
+        <div>
+            <span class="title">
+                Geoposition
+            </span>
+        </div>
+        <!--        <matcha-user-map [lat]="lat" [lng]="lng"></matcha-user-map>-->
+    </div>
+</div>
