@@ -16,4 +16,8 @@ export class DataService {
 	public tryRefreshToken(refreshToken: string, accessToken: string): Observable<{ accessToken: string, refreshToken: string }> {
 		return this._httpService.post<{ accessToken: string, refreshToken: string }>('tokens/update', { refreshToken, accessToken });
 	}
+
+	public setLocation(longitude: number, latitude: number): Observable<void> {
+		return this._httpService.post<void>('user/location', { longitude, latitude });
+	}
 }

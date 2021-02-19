@@ -65,5 +65,21 @@ async function setup() {
 		' REFERENCES users (id)' +
 		' ON DELETE CASCADE' +
 		' ON UPDATE CASCADE);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS likes (' +
+		'  from_user_id INT NOT NULL,' +
+		'  to_user_id INT NOT NULL);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS fakes (' +
+		'  from_user_id INT NOT NULL,' +
+		'  to_user_id INT NOT NULL);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS blocks (' +
+		'  from_user_id INT NOT NULL,' +
+		'  to_user_id INT NOT NULL);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS locations (' +
+		'  user_id INT NOT NULL,' +
+		'  latitude DECIMAL(4,2) NOT NULL,' +
+		'  longitude DECIMAL(4,2) NOT NULL,' +
+		'  PRIMARY KEY (user_id)' +
+		');')
 }
+
 

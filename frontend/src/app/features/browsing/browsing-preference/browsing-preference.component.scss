@@ -16,10 +16,14 @@ span {
 }
 
 .fame-rating {
+    cursor: pointer;
     padding: 10px;
-    background: $secondary;
+    background: $primary;
     border-radius: 5px;
     width: 70px;
+}
+.liked .material-icons {
+    color: #ea4848;
 }
 .profile__header{
     text-align: center;

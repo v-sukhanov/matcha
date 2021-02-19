@@ -1,6 +1,10 @@
+import { GenderEnum } from '../../enums/gender.enum';
+import { SexualPreferenceEnum } from '../../enums/sexual-preference.enum';
+
 export {};
 const {Router} = require('express')
 const connection = require('../../utils/db-connection')
+const getInfo = require('../../utils/get-profile-info')
 const bcrypt = require('bcrypt')
 const multer  = require('multer')
 const config = require('config');
@@ -19,22 +23,7 @@ const router = Router()
 
 router.get('/info', async (req:any, res: any) => {
 	try {
-		const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [req.user.id]))[0];
-		const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [req.user.id]))[0];
-		return res.status(200).json({
-			email: req.user.email,
-			username: req.user.username,
-			firstName: req.user.first_name,
-			lastName: req.user.last_name,
-			age: req.user.age,
-			gender: req.user.gender,
-			sexualPreference: req.user.sexual_preference,
-			biography: req.user.biography,
-			avatarLink: req.user.avatarLink,
-			fameRating: req.user.fame_rating,
-			tags,
-			photosLink
-		})
+		return res.status(200).json(await getInfo(req.user, req.user.id));
 	} catch(error) {
 		console.log(error);
 		return res.status(500);
@@ -44,23 +33,11 @@ router.get('/info', async (req:any, res: any) => {
 router.get('/preference/info', async (req:any, res: any) => {
 	try {
 		const user = (await connection.query('SELECT * FROM users WHERE username=?', [req.query.username]))[0][0]
-		const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [user.id]))[0];
-		const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [user.id]))[0];
+
 		await connection.query('INSERT INTO consults(user_id, consulted_user_id) VALUES(?, ?)', [req.user.id, user.id])
-		return res.status(200).json({
-			email: user.email,
-			username: user.username,
-			firstName: user.first_name,
-			lastName: user.last_name,
-			age: user.age,
-			gender: user.gender,
-			sexualPreference: user.sexual_preference,
-			biography: user.biography,
-			avatarLink: user.avatarLink,
-			fameRating: user.fame_rating,
-			tags,
-			photosLink
-		})
+
+		return res.status(200).json(await getInfo(user, req.user.id));
+
 	} catch(error) {
 		console.log(error);
 		return res.status(500);
@@ -108,6 +85,7 @@ router.post('/account/edit', async (req:any, res: any) => {
 router.post('/params/edit', async (req:any, res: any) => {
 	const { age, gender, sexualPreference, biography, tags } = req.body;
 	const id = req.user.id
+	console.log(sexualPreference);
 	try {
 		await connection.query('UPDATE users SET age=?, gender=?, sexual_preference=?, biography=? WHERE id=?', [age, gender, sexualPreference, biography, id]);
 		await connection.query('DELETE FROM tags WHERE user_id=?', [id]);
@@ -156,27 +134,24 @@ router.post('/photo/delete', async (req: any, res: any) => {
 })
 
 router.get('/preferences/get', async (req: any, res: any) => {
+	const user = req.user;
 	try {
 
 		const preferences = (await connection.query('SELECT * FROM users WHERE id!=?', [req.user.id]))[0];
 		const dto = [];
-		for (let user of preferences) {
-			const tags = (await connection.query('SELECT * FROM tags WHERE user_id=?', [user.id]))[0];
-			const photosLink = (await connection.query('SELECT * FROM photos WHERE user_id=?', [user.id]))[0];
-			dto.push({
-				email: user.email,
-				username: user.username,
-				firstName: user.first_name,
-				lastName: user.last_name,
-				age: user.age,
-				gender: user.gender,
-				sexualPreference: user.sexual_preference,
-				biography: user.biography,
-				avatarLink: user.avatarLink,
-				fameRating: user.fame_rating,
-				tags,
-				photosLink
-			})
+		for (let preference of preferences) {
+			if (user.sexual_preference !== SexualPreferenceEnum.BiSexual) {
+				if (user.sexual_preference === SexualPreferenceEnum.Female && preference.gender !== GenderEnum.Female) {
+					continue ;
+				}
+				if (user.sexual_preference === SexualPreferenceEnum.Male && preference.gender !== GenderEnum.Male) {
+					continue ;
+				}
+			}
+			if (!!(await connection.query('SELECT * FROM blocks WHERE from_user_id=? and to_user_id=?', [user.id, preference.id]))[0][0]) {
+				continue ;
+			}
+			dto.push(await getInfo(preference, user.id));
 		}
 		return res.status(200).json(dto)
 	} catch(error) {
@@ -213,6 +188,66 @@ router.get('/visits', async (req: any, res: any) => {
 			})
 		}
 		return res.status(200).json(dto)
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
+router.post('/like', async (req: any, res: any) => {
+	try {
+		const like = (await connection.query('SELECT * FROM likes WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id]))[0][0]
+		if (like) {
+			await connection.query('DELETE FROM likes WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id])
+			return res.status(200).json({like: false})
+		} else {
+			await connection.query('INSERT INTO likes(from_user_id, to_user_id) VALUES(?, ?)', [req.user.id, req.body.id])
+			return res.status(200).json({like: true})
+		}
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
+router.post('/fake', async (req: any, res: any) => {
+	try {
+		const like = (await connection.query('SELECT * FROM fakes WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id]))[0][0]
+		if (like) {
+			await connection.query('DELETE FROM fakes WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id])
+			return res.status(200).json({like: false})
+		} else {
+			await connection.query('INSERT INTO fakes(from_user_id, to_user_id) VALUES(?, ?)', [req.user.id, req.body.id])
+			return res.status(200).json({like: true})
+		}
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
+router.post('/block', async (req: any, res: any) => {
+	try {
+		const like = (await connection.query('SELECT * FROM blocks WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id]))[0][0]
+		if (like) {
+			await connection.query('DELETE FROM blocks WHERE from_user_id=? and to_user_id=?', [req.user.id, req.body.id])
+			return res.status(200).json({like: false})
+		} else {
+			await connection.query('INSERT INTO blocks(from_user_id, to_user_id) VALUES(?, ?)', [req.user.id, req.body.id])
+			return res.status(200).json({like: true})
+		}
+	} catch(error) {
+		console.log(error);
+		return res.status(500).json();
+	}
+})
+
+
+router.post('/location', async (req: any, res: any) => {
+	const { longitude, latitude } = req.body;
+	try {
+		await connection.query('INSERT INTO locations(user_id, longitude, latitude) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE longitude=?, latitude=?', [req.user.id, longitude, latitude, longitude, latitude]);
+		return res.status(200).json({})
 	} catch(error) {
 		console.log(error);
 		return res.status(500).json();

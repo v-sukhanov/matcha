@@ -3,7 +3,13 @@ import { ITag } from '@core/interfaces/tag.interface';
 import { IPhoto } from '@core/interfaces/photo.interface';
 import { SexualPreferenceEnum } from '@core/enums/sexual-preference.enum';
 
+export interface ILocation{
+	latitude: number;
+	longitude: number;
+}
+
 export interface IUser {
+	id: string;
 	username: string;
 	lastName: string;
 	firstName: string;
@@ -16,4 +22,7 @@ export interface IUser {
 	photosLink?: IPhoto[];
 	avatarLink?: string;
 	fameRating: number;
+	haveYourLike: boolean;
+	location: ILocation;
+	distanceFromYou: number;
 }

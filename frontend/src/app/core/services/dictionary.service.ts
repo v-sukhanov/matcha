@@ -53,7 +53,7 @@ export class DictionaryService {
 			new DictionaryItem<SexualPreferenceEnum, string>(SexualPreferenceEnum.Female, 'female')
 		);
 		this.sexualPreferences.addItem(
-			new DictionaryItem<SexualPreferenceEnum, string>(SexualPreferenceEnum.Female, 'male')
+			new DictionaryItem<SexualPreferenceEnum, string>(SexualPreferenceEnum.Male, 'male')
 		);
 		this.sexualPreferences.addItem(
 			new DictionaryItem<SexualPreferenceEnum, string>(SexualPreferenceEnum.BiSexual, 'bisexual')

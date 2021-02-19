@@ -62,15 +62,24 @@
             </span>
         </div>
         <div fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field class="full-width">
-                <mat-label>latitude</mat-label>
-                <input [(ngModel)]="lat" matInput>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-label>longitude</mat-label>
-                <input [(ngModel)]="lng" matInput>
-            </mat-form-field>
+            <div fxFlex fxLayout="row" fxLayoutGap="15px">
+                <mat-form-field class="full-width">
+                    <mat-label>latitude</mat-label>
+                    <input [(ngModel)]="lat" matInput>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>longitude</mat-label>
+                    <input [(ngModel)]="lng" matInput>
+                </mat-form-field>
+            </div>
+            <div>
+                <button (click)="editLocation()">edit</button>
+            </div>
+            <div>
+                <button (click)="setLocationByGPS()">edit by GPS</button>
+            </div>
         </div>
-<!--        <matcha-user-map [lat]="lat" [lng]="lng"></matcha-user-map>-->
+
+        <matcha-user-map [lat]="lat" [lng]="lng"></matcha-user-map>
     </div>
 </div>

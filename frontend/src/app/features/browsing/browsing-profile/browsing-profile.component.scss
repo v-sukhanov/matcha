@@ -2,6 +2,7 @@
 
 .profile {
     padding: 25px;
+
 }
 .title {
     font-size: 20px;
@@ -36,7 +37,7 @@ img {
 
 .fame-rating {
     padding: 10px;
-    background: $secondary;
+    background: $primary;
     border-radius: 5px;
     width: 90px;
     cursor: pointer;
@@ -52,7 +53,7 @@ img {
 
 .report {
     padding: 10px;
-    background: #c006ea;
+    background: #b80404;
     border-radius: 5px;
     cursor: pointer;
     width: 90px;
@@ -72,4 +73,8 @@ img {
 .other-photo img {
     height: 250px;
     width: initial;
+}
+
+.liked .material-icons {
+    color: #ea4848;
 }
