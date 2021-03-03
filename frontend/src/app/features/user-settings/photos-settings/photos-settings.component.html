@@ -7,6 +7,9 @@
             <div (click)="avatar.click()" class="add_photo" fxLayoutAlign="center center">
                 <mat-icon>add</mat-icon>
             </div>
+            <div fxLayoutAlign="center center">
+                <mat-icon class="delete-photo" (click)="deleteAvatar()">delete</mat-icon>
+            </div>
             <input class="hidden-input" #avatar type="file" (change)="uploadAvatar(avatar.files)">
         </div>
     </div>

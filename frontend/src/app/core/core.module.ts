@@ -10,6 +10,8 @@ import { HttpService } from '@core/services/http.service';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpHeaderInterceptor } from '@core/interceptors/http-header.interceptor';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
+import { TemplateService } from '@core/services/template.service';
+import { SocketService } from '@core/services/socket.service';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 		UserService,
 		DataService,
 		HttpService,
+		TemplateService,
+		SocketService,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: HttpHeaderInterceptor,

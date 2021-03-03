@@ -81,9 +81,34 @@ router.post('/signin', async (req: any, res: any) => {
 				id: user.id
 			},
 			config.get('secret'),
-			{ expiresIn: '1000s' }
+			{ expiresIn: '10000s' }
 		)
-		await connection.query('UPDATE users SET access_token =?, refresh_token=?', [accessToken, refreshToken]);
+		await connection.query('UPDATE users SET access_token =?, refresh_token=? WHERE id=?', [accessToken, refreshToken, user.id]);
+		return res.status(200).json({refreshToken, accessToken})
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({});
+	}
+})
+
+router.post('/google/signin', async (req: any, res: any) => {
+	const { email, username, lastName, firstName } = req.body;
+	try {
+		let user = (await connection.query('SELECT * FROM users WHERE email=?', [email]))[0][0];
+		if (!user) {
+			await connection.query('INSERT INTO users(email, username, first_name, last_name, verify, hash) VALUES(?, ?, ?, ?, ?, ?)', [email, username, firstName, lastName, 1, randtoken.uid(128)])
+		}
+		user = (await connection.query('SELECT * FROM users WHERE email=?', [email]))[0][0];
+
+		const refreshToken = randtoken.uid(128);
+		const accessToken = jwt.sign(
+			{
+				id: user.id
+			},
+			config.get('secret'),
+			{ expiresIn: '10000s' }
+		)
+		await connection.query('UPDATE users SET access_token =?, refresh_token=? WHERE id=?', [accessToken, refreshToken, user.id]);
 		return res.status(200).json({refreshToken, accessToken})
 	} catch(err) {
 		console.log(err);

@@ -6,9 +6,29 @@
     background: $primary-background;
     .navbar {
         width: 180px;
+        @media screen and (max-width: 959px) {
+            position: absolute;
+            left: 0;
+            top: 55px;
+            z-index: 5000;
+            background: $primary-background;
+            height: calc(100vh - 55px);
+        }
     }
 
     .content {
         width: calc(100vw - 200px);
     }
+}
+
+
+.material-icons {
+    color: white;
+    transition: .3s;
+    user-select: none;
+    cursor: pointer;
+}
+
+.menu {
+    padding: 25px 25px 0;
 }

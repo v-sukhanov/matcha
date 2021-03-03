@@ -1,0 +1,111 @@
+<div class="browsing-filter" fxLayout="column" fxLayoutGap="25px">
+    <div fxLayout="column" fxLayoutGap="15px">
+        <div>
+            <span>distance gap</span>
+        </div>
+        <div class="browsing-filter-item" fxLayout="row" fxLayoutGap="15px">
+            <div fxFlex>
+                <div>
+                    <span>min: {{browsingFilter.distance.selectedMin | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.distance.min"
+                        [max]="browsingFilter.distance.selectedMax"
+                        [value]="browsingFilter.distance.selectedMin"
+                        (valueChange)="browsingFilter.distance.selectedMin = $event ? $event : browsingFilter.distance.selectedMin"
+                        thumbLabel></mat-slider>
+            </div>
+            <div fxFlex>
+                <div>
+                    <span>max: {{browsingFilter.distance.selectedMax | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.distance.selectedMin"
+                        [max]="browsingFilter.distance.max"
+                        [value]="browsingFilter.distance.selectedMax"
+                        (valueChange)="browsingFilter.distance.selectedMax = $event ? $event : browsingFilter.distance.selectedMax"
+                        thumbLabel>max</mat-slider>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="15px">
+        <div>
+            <span>age gap</span>
+        </div>
+        <div class="browsing-filter-item" fxLayout="row" fxLayoutGap="15px">
+            <div fxFlex>
+                <div>
+                    <span>min: {{browsingFilter.age.selectedMin | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.age.min"
+                        [max]="browsingFilter.age.selectedMax"
+                        [value]="browsingFilter.age.selectedMin"
+                        (valueChange)="browsingFilter.age.selectedMin = $event ? $event : browsingFilter.age.selectedMin"
+                        thumbLabel></mat-slider>
+            </div>
+            <div fxFlex>
+                <div>
+                    <span>max: {{browsingFilter.age.selectedMax | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.age.selectedMin"
+                        [max]="browsingFilter.age.max"
+                        [value]="browsingFilter.age.selectedMax"
+                        (valueChange)="browsingFilter.age.selectedMax = $event ? $event : browsingFilter.age.selectedMax"
+                        thumbLabel>max</mat-slider>
+
+            </div>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="15px">
+        <div>
+            <span>fame gap</span>
+        </div>
+        <div class="browsing-filter-item" fxLayout="row" fxLayoutGap="15px">
+            <div fxFlex>
+                <div>
+                    <span>min: {{browsingFilter.fameRating.selectedMin | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.fameRating.min"
+                        [max]="browsingFilter.fameRating.selectedMax"
+                        [value]="browsingFilter.fameRating.selectedMin"
+                        (valueChange)="browsingFilter.fameRating.selectedMin = $event ? $event : browsingFilter.fameRating.selectedMin"
+                        thumbLabel
+                ></mat-slider>
+            </div>
+            <div fxFlex>
+                <div>
+                    <span>max: {{browsingFilter.fameRating.selectedMax | number: '1.0-0'}}</span>
+                </div>
+                <mat-slider
+                        [min]="browsingFilter.fameRating.selectedMin"
+                        [max]="browsingFilter.fameRating.max"
+                        [value]="browsingFilter.fameRating.selectedMax"
+                        (valueChange)="browsingFilter.fameRating.selectedMax = $event ? $event : browsingFilter.fameRating.selectedMax"
+                        thumbLabel>max</mat-slider>
+            </div>
+        </div>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Tags</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+                <mat-chip *ngFor="let tag of browsingFilter.tags" [selectable]="false"
+                          [removable]="true" (removed)="remove(tag)">
+                    {{tag.text}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="new tags..."
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="true"
+                       (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+        </mat-form-field>
+    </div>
+<!--    <div>-->
+<!--        <button (click)="applyFilter.emit()">apply filter</button>-->
+<!--    </div>-->
+</div>

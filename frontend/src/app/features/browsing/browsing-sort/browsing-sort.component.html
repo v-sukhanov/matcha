@@ -1,0 +1,13 @@
+<div class="browsing-sort" fxLayout="column" fxLayoutGap="15px">
+    <div>
+        <span>Sort by:</span>
+    </div>
+    <div>
+        <mat-radio-group aria-label="Select an option" fxLayout="row" fxLayoutGap="15px" (change)="applySort.emit($event)">
+            <mat-radio-button [checked]="true" value="distanceFromYou"><span>distance</span></mat-radio-button>
+            <mat-radio-button value="age"><span>age</span></mat-radio-button>
+            <mat-radio-button value="fameRating"><span>fame rating</span></mat-radio-button>
+            <mat-radio-button value="commonTags"><span>common tags</span></mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>

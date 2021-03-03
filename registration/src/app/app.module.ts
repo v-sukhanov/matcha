@@ -18,6 +18,10 @@ import { DataService } from './core/services/data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmComponent } from './features/confirm/confirm.component';
 import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
+import {
+	GoogleLoginProvider,
+	FacebookLoginProvider, SocialAuthServiceConfig, SocialAuthService, SocialLoginModule
+} from 'angularx-social-login';
 
 @NgModule({
 	declarations: [
@@ -38,13 +42,28 @@ import { ForgotPasswordComponent } from './features/forgot-password/forgot-passw
 		MatButtonModule,
 		ReactiveFormsModule,
 		HttpClientModule,
+		SocialLoginModule
 	],
 	providers: [
 		HttpService,
-		DataService
+		DataService,
+		{
+			provide: 'SocialAuthServiceConfig',
+			useValue: {
+				providers: [
+					{
+						id: GoogleLoginProvider.PROVIDER_ID,
+						provider: new GoogleLoginProvider(
+							'151530268478-hfp331mkggrr40gbvefo2id6taiv7j0h.apps.googleusercontent.com'
+						)
+					}
+				]
+			} as SocialAuthServiceConfig,
+		}
 	],
 	bootstrap: [AppComponent]
 
 })
 export class AppModule {
 }
+

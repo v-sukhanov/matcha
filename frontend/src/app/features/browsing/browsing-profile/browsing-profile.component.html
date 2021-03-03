@@ -1,7 +1,7 @@
 <div *ngIf="preference" class="profile" fxLayout="column" fxLayoutGap="25px">
     <div class="profile__info" fxLayout="column" fxLayoutGap="25px">
         <div fxLayout="row" fxLayoutGap="25px">
-            <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="default center">
+            <div fxLayout="row" fxLayoutGap="25px">
                 <div class="profile__header" fxLayout="column" fxLayoutGap="15px">
                     <div class="img__wrap">
                         <img [src]="preference.avatarLink ? preference.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
@@ -10,12 +10,22 @@
                         <span class="title">{{preference.username}}</span>
                     </div>
                 </div>
-
+                <div>
+                        <span class="online" *ngIf="preference.online">
+                            online
+                        </span>
+                    <span class="secondary-text" *ngIf="!preference.online">
+                            last seen
+                        </span>
+                    <span class="secondary-text" *ngIf="!preference.online">
+                            {{preference.last_seen_date | date: 'MMM d, y, h:mm a'}}
+                        </span>
+                </div>
 
             </div>
             <div fxFlex fxLayout="column" fxLayoutGap="15px">
 
-                <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="15px">
+                <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="end" fxLayoutGap="15px">
                     <div class="fame-rating" [class.liked]="preference.haveYourLike" fxLayoutGap="10px" fxLayoutAlign="center center" (click)="like(preference.id)">
                         <mat-icon>favorite</mat-icon>
                         <span>
@@ -74,6 +84,6 @@
                 Geoposition
             </span>
         </div>
-        <!--        <matcha-user-map [lat]="lat" [lng]="lng"></matcha-user-map>-->
+        <matcha-user-map [lat]="preference.location.latitude" [lng]="preference.location.longitude"></matcha-user-map>
     </div>
 </div>

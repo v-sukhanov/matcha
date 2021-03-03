@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NavigationService } from '@core/services/navigation.service';
 import { AuthenticationService } from '@core/services/authentication.service';
+import { TemplateService } from '@core/services/template.service';
 
 @Component({
 	selector: 'matcha-navbar',
@@ -17,7 +18,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private _userService: UserService,
-		public authService: AuthenticationService
+		public authService: AuthenticationService,
+		public templateService: TemplateService
 	) {
 		this._unsub$ = new Subject<void>();
 		this.avatarLink = 'assets/img/default_avatar.png';
@@ -33,6 +35,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 				this.username = user.username;
 				if (user.avatarLink) {
 					this.avatarLink = user.avatarLink;
+				} else {
+					this.avatarLink = 'assets/img/default_avatar.png';
 				}
 			});
 	}

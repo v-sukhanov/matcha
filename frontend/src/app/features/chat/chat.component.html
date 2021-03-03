@@ -1,0 +1,19 @@
+<div class="chats"  fxLayout="column" fxLayoutGap="15px">
+    <div *ngFor="let chat of chats"  [routerLink]="['../current', chat.chat_id]" class="profile__info" fxLayout="row" fxLayoutGap="25px">
+        <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="default center">
+            <div class="profile__header" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="center center">
+                <div class="img__wrap">
+                    <img [src]="chat.fromUser.avatarLink ? chat.fromUser.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+                </div>
+                <div>
+                    <span>{{chat.fromUser.username}}</span>
+                </div>
+            </div>
+        </div>
+        <div >
+            <span *ngIf="chat.lastMessage"> {{chat.lastMessage.text}}</span>
+            <span *ngIf="!chat.lastMessage"> There are no message. Write the first!</span>
+        </div>
+    </div>
+
+</div>

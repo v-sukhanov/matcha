@@ -35,4 +35,8 @@ export class UserSettingsDataService {
 	public deletePhoto(id: string): Observable<void> {
 		return this._httpService.post<void>('user/photo/delete', { id });
 	}
+
+	public deleteAvatar(): Observable<void> {
+		return this._httpService.post<void>('user/avatar/delete', {});
+	}
 }

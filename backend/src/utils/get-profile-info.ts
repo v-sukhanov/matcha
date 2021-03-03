@@ -10,6 +10,7 @@ async function getInfo(user: any, fromUserId: string) {
 		const haveYourLike = !!(await  connection.query('SELECT * FROM likes WHERE from_user_id=? and to_user_id=?', [fromUserId, user.id]))[0][0]
 		const locationUserFRom = (await connection.query('SELECT * FROM locations WHERE user_id=?', [fromUserId]))[0][0];
 		const locationUser = (await connection.query('SELECT * FROM locations WHERE user_id=?', [user.id]))[0][0];
+		const user_online = (await connection.query('SELECT * FROM users_online WHERE user_id=?', [user.id]))[0][0];
 		let distanceFromYou;
 		if (locationUserFRom && locationUser) {
 			distanceFromYou = greatCircleDistance({
@@ -36,7 +37,9 @@ async function getInfo(user: any, fromUserId: string) {
 			fameRating,
 			haveYourLike,
 			location: locationUser,
-			distanceFromYou
+			distanceFromYou,
+			online: user_online?.online,
+			last_seen_date: user_online?.last_seen_date
 		};
 	} catch(error) {
 		console.log(error);

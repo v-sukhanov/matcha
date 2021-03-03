@@ -12,8 +12,9 @@
     </div>
     <div fxLayout="column" fxLayoutGap="15px">
         <matcha-navbar-item link="browsing" iconName="person_search" text="Browsing"></matcha-navbar-item>
+        <matcha-navbar-item [notif]="templateService.notification.unreadCountMessages" link="chat" iconName="chat" text="Chat"></matcha-navbar-item>
         <matcha-navbar-item link="history" iconName="visibility" text="Visit history"></matcha-navbar-item>
-        <matcha-navbar-item link="#" iconName="notifications" text="Notifications"></matcha-navbar-item>
+        <matcha-navbar-item [notif]="templateService.notification.unreadCountNotification" link="notifications" iconName="notifications" text="Notifications"></matcha-navbar-item>
         <matcha-navbar-item link="profile" iconName="perm_identity" text="Profile"></matcha-navbar-item>
         <matcha-navbar-item link="settings" iconName="settings" text="Settings"></matcha-navbar-item>
         <matcha-navbar-item (click)="authService.logout()" link="#" iconName="logout" text="exit"></matcha-navbar-item>

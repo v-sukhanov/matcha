@@ -9,6 +9,9 @@ const {ExtractJwt, Strategy} = require('passport-jwt')
 const passport = require('passport')
 const connection = require('./utils/db-connection')
 const cors = require('cors');
+const socket = require('socket.io')
+const { socket_listener } = require('./controls/socket/socket')
+
 var jwtOptions = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: config.get('secret')
@@ -36,6 +39,7 @@ app.use(express.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/assets'));
 app.use(cors({
+	credentials: true,
 	origin: ['http://localhost:4200', 'http://localhost:4220']
 }));
 app.use('/auth', require('./controls/auth/auth.router.ts'));
@@ -44,7 +48,17 @@ app.use('/api/user', passport.initialize(), passport.authenticate('jwt', {sessio
 
 //
 const server = http.createServer(app)
-
+const io = socket(server, {
+	cors: {
+		credentials: true,
+		origin: 'http://localhost:4220',
+		methods: ["GET", "POST"],
+		transports: ['websocket', 'polling'],
+	},
+	allowEIO3: true
+})
+socket_listener(io)
 server.listen(PORT, () => {
 	console.log('Server has been started')
 })
+

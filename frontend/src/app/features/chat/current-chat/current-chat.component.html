@@ -1,0 +1,34 @@
+<div class="current-chat" fxLayout="column" fxLayoutAlign="space-between">
+    <div class="no-message" *ngIf="!messages.length">
+        <span>There are no message yet</span>
+    </div>
+    <div></div>
+    <perfect-scrollbar>
+        <div *ngIf="messages.length" fxLayout="column" fxLayoutGap="15px">
+            <div *ngFor="let message of messages" [fxLayout]="message.user_id === userId ? 'row-reverse' : 'row'" fxLayoutGap="10px">
+                <div class="img__wrap">
+                    <img [src]="message.fromUser.avatarLink ? message.fromUser.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+                </div>
+                <div fxLayoutGap="10px">
+                    <div>
+                        <span class="bold">{{message.fromUser.username}}</span>
+                    </div>
+                    <div>
+                        <span>{{message.text}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+
+    <div class="input" fxLayoutGap="15px">
+        <div fxFlex>
+            <mat-form-field>
+                <input matInput type="text" (keydown.enter)="sendMessage()" [(ngModel)]="inputText" placeholder="type a message..">
+            </mat-form-field>
+        </div>
+        <div>
+            <button (click)="sendMessage()">send</button>
+        </div>
+    </div>
+</div>

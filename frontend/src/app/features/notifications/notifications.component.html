@@ -1,0 +1,39 @@
+<div class="notifications" fxLayout="column" fxLayoutGap="15px">
+        <div *ngFor="let not of notifications" class="profile__info" fxLayout="row" fxLayoutGap="25px">
+            <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="default center">
+                <div class="profile__header" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="center center">
+                    <div class="img__wrap">
+                        <img [src]="not.fromUser.avatarLink ? not.fromUser.avatarLink : 'assets/img/default_avatar.png'" alt="avatar">
+                    </div>
+                    <div>
+                        <span>{{not.fromUser.username}}</span>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutGap="50px">
+                <div fxLayout="column" fxLayoutGap="15px">
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <div>
+                            <a class="title link-to-profile" [routerLink]="['../browsing/user', not.fromUser.username]">{{not.fromUser.firstName}} {{not.fromUser.lastName}}</a>
+                        </div>
+                        <div>
+                            <div  class="male">
+                                <mat-icon *ngIf="not.fromUser.gender == genderEnum.Male">male</mat-icon>
+                            </div>
+                            <div  class="female">
+                                <mat-icon class="female" *ngIf="not.fromUser.gender == genderEnum.Female">female</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span *ngIf="not.type === notificationTypeEnum.Like">liked you</span>
+                        <span *ngIf="not.type === notificationTypeEnum.Consulted">consulted you</span>
+                    </div>
+                    <div>
+                        <span class="secondary-text">{{not.date | date: 'MMM d, y, h:mm a'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>

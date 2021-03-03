@@ -1,7 +1,21 @@
-<div class="browsing">
+<div class="browsing" fxLayout="column" fxLayoutGap="25px">
+    <div>
+        <matcha-browsing-filter [browsingFilter]="browsingFilter" (applyFilter)="applyFilter()"></matcha-browsing-filter>
+    </div>
+    <div>
+        <matcha-browsing-sort (applySort)="applySort($event)"></matcha-browsing-sort>
+    </div>
+    <div class="container-map"  (wheel)="$event.stopPropagation()">
+        <ya-map [center]="[lat, long]" [zoom]="12">
+            <ya-placemark [properties]="{ iconCaption: (userService.user$ | async)?.username}" [geometry]="[lat, long]"></ya-placemark>
+            <ya-placemark  *ngFor="let preference of preferences" [properties]="{ iconCaption: preference.username}" [geometry]="[preference.location.latitude, preference.location.longitude]"></ya-placemark>
+
+        </ya-map>
+    </div>
     <div fxLayout="column" fxLayoutGap="25px">
-        <div *ngFor="let preference of preferences">
+        <div *ngFor="let preference of (sortedPreferences | arrayFilter : filterFunc.bind(this))">
             <matcha-browsing-preference [preference]="preference"></matcha-browsing-preference>
         </div>
     </div>
 </div>
+

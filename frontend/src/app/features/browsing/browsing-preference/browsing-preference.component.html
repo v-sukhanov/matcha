@@ -8,26 +8,42 @@
                 <div>
                     <span>{{preference.username}}</span>
                 </div>
+
             </div>
         </div>
         <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
             <div fxLayout="column" fxLayoutGap="15px">
-                <div fxLayout="row" fxLayoutAlign="space-between">
-                    <div fxLayout="row" fxLayoutGap="10px">
-                        <div>
-                            <a class="title link-to-profile" [routerLink]="['user', preference.username]">{{preference.firstName}} {{preference.lastName}}</a>
-                        </div>
-                        <div>
-                            <div  class="male">
-                                <mat-icon *ngIf="preference.gender == this.genderEnum.Male">male</mat-icon>
+                <div fxLayout="column" fxLayoutGap="5px">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <div>
+                                <a class="title link-to-profile" [routerLink]="['user', preference.username]">{{preference.firstName}} {{preference.lastName}}</a>
                             </div>
-                            <div  class="female">
-                                <mat-icon class="female" *ngIf="preference.gender == this.genderEnum.Female">female</mat-icon>
-                            </div>
-                        </div>
-                    </div>
 
+                            <div>
+                                <div  class="male">
+                                    <mat-icon *ngIf="preference.gender == this.genderEnum.Male">male</mat-icon>
+                                </div>
+                                <div  class="female">
+                                    <mat-icon class="female" *ngIf="preference.gender == this.genderEnum.Female">female</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <span class="online" *ngIf="preference.online">
+                            online
+                        </span>
+                            <span class="secondary-text" *ngIf="!preference.online">
+                            last seen
+                        </span>
+                            <span class="secondary-text" *ngIf="!preference.online">
+                            {{preference.last_seen_date | date: 'MMM d, y, h:mm a'}}
+                        </span>
+                    </div>
                 </div>
+
                 <div fxLayout="column" fxLayoutGap="7px">
                     <div *ngIf="preference.distanceFromYou">
                         <span class="secondary-text">distance: {{preference.distanceFromYou | number: '1.0-0'}} km from you</span>

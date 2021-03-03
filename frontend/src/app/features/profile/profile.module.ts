@@ -16,6 +16,9 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
 	declarations: [ProfileComponent, UserMapComponent],
+	exports: [
+		UserMapComponent
+	],
 	imports: [
 		CommonModule,
 		ProfileRoutingModule,

@@ -25,4 +25,6 @@ export interface IUser {
 	haveYourLike: boolean;
 	location: ILocation;
 	distanceFromYou: number;
+	online: boolean;
+	last_seen_date: string;
 }

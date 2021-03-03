@@ -1,4 +1,5 @@
 <a [routerLink]="link"  [routerLinkActive]="['active']" class="navbar-item" fxLayout="row" fxLayoutAlign="default center" fxLayoutGap="10px">
     <i class="material-icons">{{iconName}}</i>
-    <span>{{text}}</span>
+    <span *ngIf="notif" [matBadge]="notif">{{text}}</span>
+    <span *ngIf="!notif">{{text}}</span>
 </a>

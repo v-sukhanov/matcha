@@ -17,7 +17,7 @@ async function setup() {
 	await connection.execute('CREATE TABLE IF NOT EXISTS users (' +
 		'id INT NOT NULL AUTO_INCREMENT,' +
 		'email VARCHAR(256) NOT NULL,' +
-		'password VARCHAR(256) NOT NULL,' +
+		'password VARCHAR(256),' +
 		'username VARCHAR(256) NOT NULL,' +
 		'first_name VARCHAR(256) NOT NULL,' +
 		'last_name VARCHAR(256) NOT NULL,' +
@@ -46,8 +46,7 @@ async function setup() {
 		' FOREIGN KEY (user_id)' +
 		' REFERENCES users (id)' +
 		' ON DELETE CASCADE' +
-		' ON UPDATE CASCADE,' +
-		'UNIQUE INDEX text_UNIQUE (text ASC) VISIBLE);')
+		' ON UPDATE CASCADE);')
 	await connection.execute('CREATE TABLE IF NOT EXISTS photos (' +
 		'  id INT NOT NULL AUTO_INCREMENT,' +
 		'  link VARCHAR(256) NOT NULL,' +
@@ -58,16 +57,13 @@ async function setup() {
 		' ON DELETE CASCADE' +
 		' ON UPDATE CASCADE);')
 	await connection.execute('CREATE TABLE IF NOT EXISTS consults (' +
-		'  user_id INT NULL,' +
-		'  consulted_user_id INT NULL,' +
-		'  INDEX user_id_idx (user_id ASC) VISIBLE,' +
-		' FOREIGN KEY (user_id)' +
-		' REFERENCES users (id)' +
-		' ON DELETE CASCADE' +
-		' ON UPDATE CASCADE);')
+		'  from_user_id INT NOT NULL,' +
+		'  to_user_id INT NOT NULL,' +
+		'  date DATETIME DEFAULT CURRENT_TIMESTAMP);')
 	await connection.execute('CREATE TABLE IF NOT EXISTS likes (' +
 		'  from_user_id INT NOT NULL,' +
-		'  to_user_id INT NOT NULL);')
+		'  to_user_id INT NOT NULL,' +
+		'  date DATETIME DEFAULT CURRENT_TIMESTAMP);')
 	await connection.execute('CREATE TABLE IF NOT EXISTS fakes (' +
 		'  from_user_id INT NOT NULL,' +
 		'  to_user_id INT NOT NULL);')
@@ -80,6 +76,35 @@ async function setup() {
 		'  longitude DECIMAL(4,2) NOT NULL,' +
 		'  PRIMARY KEY (user_id)' +
 		');')
+	await connection.execute('CREATE TABLE IF NOT EXISTS chats (' +
+		'  id INT NOT NULL AUTO_INCREMENT,' +
+		'  date DATETIME DEFAULT CURRENT_TIMESTAMP,' +
+		'  PRIMARY KEY (id)' +
+		');')
+	await connection.execute('CREATE TABLE IF NOT EXISTS chat_members (' +
+		'  id INT NOT NULL AUTO_INCREMENT,' +
+		'  user_id INT NOT NULL,' +
+		'  chat_id INT NOT NULL,' +
+		'  date DATETIME DEFAULT CURRENT_TIMESTAMP,' +
+		'  PRIMARY KEY (id)' +
+		');')
+	await connection.execute('CREATE TABLE IF NOT EXISTS messages (' +
+		'  id INT NOT NULL AUTO_INCREMENT,' +
+		'  text VARCHAR(45) NULL,' +
+		'  user_id INT NOT NULL,' +
+		'  chat_id INT NULL,' +
+		'  PRIMARY KEY (id),' +
+		'  date DATETIME DEFAULT CURRENT_TIMESTAMP);')
+	await connection.execute('CREATE TABLE IF NOT EXISTS users_online (' +
+		'  user_id INT NOT NULL,' +
+		'  online TINYINT NULL DEFAULT 0,' +
+		'  last_seen_date DATETIME,' +
+		'  PRIMARY KEY (user_id)' +
+		');')
+	await connection.execute('CREATE TABLE IF NOT EXISTS notification (' +
+		'  user_id INT NOT NULL,' +
+		'  last_seen_notification_date DATETIME,' +
+		'  last_seen_messages_date DATETIME,' +
+		'  PRIMARY KEY (user_id)' +
+		');')
 }
-
-

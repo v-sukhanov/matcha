@@ -1,0 +1,86 @@
+@import '../../../assets/scss/color.scss';
+
+.chats {
+    padding: 25px;
+}
+
+
+
+
+.profile__info {
+    padding: 25px;
+    cursor: pointer;
+}
+
+span {
+    color: white;
+    font-size: 13px;
+}
+
+.material-icons {
+    color: white;
+    transition: .3s;
+    user-select: none;
+}
+
+.fame-rating {
+    padding: 10px;
+    background: $secondary;
+    border-radius: 5px;
+    width: 70px;
+}
+.profile__header{
+    text-align: center;
+}
+.img__wrap {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile__info, .profile__map {
+    background: $secondary-background;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.other-img__wrap {
+    height: 200px;
+    border-radius:5px;
+    overflow: hidden;
+}
+.other-photo img {
+    height: 250px;
+    width: initial;
+}
+
+.title {
+    font-size: 25px;
+}
+
+.secondary-text {
+    opacity: .5;
+}
+
+.female .material-icons {
+    color: #cd4bad;
+}
+
+.male .material-icons{
+    color: #4b6bcd;
+}
+
+.link-to-profile {
+    cursor: pointer;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}

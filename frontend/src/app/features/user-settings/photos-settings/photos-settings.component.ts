@@ -56,4 +56,8 @@ export class PhotosSettingsComponent implements OnInit, OnDestroy {
 	public deletePhoto(id: string): void {
 		this._dataService.deletePhoto(id).subscribe(() => this.userService.getUser());
 	}
+
+	public deleteAvatar(): void {
+		this._dataService.deleteAvatar().subscribe(() => this.userService.getUser());
+	}
 }

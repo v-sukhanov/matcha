@@ -21,6 +21,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: rgba(255, 255, 255, .5);
 }
 
+.mat-slider-horizontal .mat-slider-wrapper {
+    background: white;
+}
+.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+    background-color: white;
+}
+.mat-checkbox-frame, .mat-radio-outer-circle {
+    border-color: rgba(255, 255, 255, .5);
+}
+
 .mat-expansion-panel {
   background: transparent;
 }

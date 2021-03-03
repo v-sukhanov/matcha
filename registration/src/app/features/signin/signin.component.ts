@@ -1,10 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { EMPTY, pipe, timer } from 'rxjs';
+import { EMPTY, from, pipe, timer } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidators } from '../../shared/form-validators.class';
 import { DataService } from '../../core/services/data.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 
 @Component({
 	selector: 'app-signin',
@@ -29,10 +30,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class SigninComponent implements OnInit   {
 	public form: FormGroup;
 	public errors: string[];
+	public readonly googleAuthClientId: string;
 
 	constructor(
-		private _dataService: DataService
+		private _dataService: DataService,
+		private _socialAuthServer: SocialAuthService
 	) {
+		this.googleAuthClientId = '';
 		this.form = new FormGroup(
 			{
 				password: new FormControl('', [Validators.required]),
@@ -51,6 +55,18 @@ export class SigninComponent implements OnInit   {
 				catchError(({error}) => {
 					this.errors = error;
 					return EMPTY;
+				})
+			)
+			.subscribe(({ refreshToken, accessToken }) => {
+				window.location.href = `http://localhost:4220?access_token=${accessToken}&refresh_token=${refreshToken}`;
+			});
+	}
+
+	public signInGoogle(): void {
+		from(this._socialAuthServer.signIn(GoogleLoginProvider.PROVIDER_ID))
+			.pipe(
+				switchMap((data: SocialUser) => {
+					return this._dataService.signInGoogle(data.email, data.name, data.lastName, data.firstName)
 				})
 			)
 			.subscribe(({ refreshToken, accessToken }) => {

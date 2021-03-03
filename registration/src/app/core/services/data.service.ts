@@ -28,4 +28,8 @@ export class DataService {
 	public recovery(hash: string, password: string, confirmPassword: string): Observable<void> {
 		return this._httpService.post<void>('/recovery', { hash, password, confirmPassword });
 	}
+
+	public signInGoogle(email: string, username: string, lastName: string, firstName: string): Observable<{ accessToken, refreshToken }> {
+		return this._httpService.post<{ accessToken, refreshToken }>('/google/signin', { email, username, lastName, firstName });
+	}
 }

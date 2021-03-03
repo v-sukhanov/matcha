@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from 'app/app.component';
-import { UserSettingsComponent } from '@features/user-settings/user-settings.component';
 
 const routes: Routes = [
 	{
@@ -22,6 +20,14 @@ const routes: Routes = [
 			{
 				path: 'history',
 				loadChildren: () => import('@features/visit-history/visit-history.module').then(m => m.VisitHistoryModule)
+			},
+			{
+				path: 'chat',
+				loadChildren: () => import('@features/chat/chat.module').then(m => m.ChatModule)
+			},
+			{
+				path: 'notifications',
+				loadChildren: () => import('@features/notifications/notifications.module').then(m => m.NotificationsModule)
 			},
 			{
 				path: '',

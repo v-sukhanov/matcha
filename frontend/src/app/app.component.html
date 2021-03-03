@@ -1,5 +1,8 @@
-<div class="container" fxLayout="row">
-    <div class="navbar">
+<div class="container" fxLayout.gt-sm="row" fxLayout.lt-md="column">
+    <div class="menu" fxHide.gt-sm>
+        <mat-icon (click)="menuOpen = !menuOpen" class="material-icons">menu</mat-icon>
+    </div>
+    <div fxHide.lt-md="menuOpen" class="navbar">
         <matcha-navbar></matcha-navbar>
     </div>
     <perfect-scrollbar>
